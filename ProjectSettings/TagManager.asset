@@ -4,12 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-<<<<<<< HEAD
   - Weapon
   - Tile
-=======
   - Edge
->>>>>>> enemy-ai
   layers:
   - Default
   - TransparentFX
@@ -19,11 +16,8 @@ TagManager:
   - UI
   - 
   - 
-<<<<<<< HEAD
   - CanBeGround
-=======
   - Slime
->>>>>>> enemy-ai
   - 
   - 
   - 
