@@ -6,6 +6,7 @@ public class Player : MonoBehaviour {
     public float speed;
     public float maxSpeed;
     public float jumpPower;
+    public float dashSpeed;
 
     public LayerMask groundLayer;
 
@@ -14,12 +15,17 @@ public class Player : MonoBehaviour {
     private bool isRayHitSomething;
     private bool faceRight;
     private float horizontal;
+    private float dashTime;
+    private float startDashTime;
 
     void Start () {
         rb2d = GetComponent<Rigidbody2D>();
         isRayHitSomething = false;
         isOnGround = false;
         faceRight = true;
+
+        dashTime = 1f;
+        startDashTime = dashTime;
 	}
 	
 	void FixedUpdate () {
@@ -36,6 +42,11 @@ public class Player : MonoBehaviour {
                 Jump();
                 Debug.Log("After jump: " + rb2d.velocity);
             }            
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            Dash();
         }
        
 	}
@@ -101,6 +112,31 @@ public class Player : MonoBehaviour {
             Vector2 playerScale = transform.localScale;
             playerScale.x *= -1;
             transform.localScale = playerScale;
+        }
+    }
+
+    void Dash()
+    {
+        Vector2 dashVel;
+
+        if (faceRight)
+        {
+            dashVel = Vector2.right * dashSpeed;
+        }
+        else
+        {
+            dashVel = Vector2.left * dashSpeed;
+        }
+
+        if (dashTime <= 0)
+        {
+            dashTime = startDashTime;
+            rb2d.velocity = Vector2.zero;
+        }
+
+        else
+        {
+            rb2d.velocity = dashVel;
         }
     }
 }
