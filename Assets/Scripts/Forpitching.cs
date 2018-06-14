@@ -21,7 +21,7 @@ public class Forpitching : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if(Vector2.Distance(transform.position, targetplayer.position) > 1)
+        if(Vector2.Distance(transform.position, targetplayer.position) > 0.7)
         {
             animator.SetInteger("SlimeState", 0);
             transform.position = Vector2.MoveTowards(transform.position, targetplayer.position, speed * Time.deltaTime);
