@@ -18,6 +18,10 @@ public class Player : MonoBehaviour {
     private float dashTime;
     private float startDashTime;
 
+    
+    public float thrust;
+    private SpriteRenderer spriteRenderer;
+
     void Start () {
         rb2d = GetComponent<Rigidbody2D>();
         isRayHitSomething = false;
@@ -26,6 +30,7 @@ public class Player : MonoBehaviour {
 
         dashTime = 1f;
         startDashTime = dashTime;
+        spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
 	void FixedUpdate () {
@@ -137,6 +142,22 @@ public class Player : MonoBehaviour {
         else
         {
             rb2d.velocity = dashVel;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.tag == "Enemy") {
+            // rb2d.AddForce(new Vector2(thrust, 0f), ForceMode2D.Impulse);
+            Vector2 vel = new Vector2(-20f, rb2d.velocity.y);
+            rb2d.velocity = vel;
+            Color tmp = spriteRenderer.color;
+            tmp.a -= 0.3f;
+            //need to change color to black and white
+            if(tmp.a < 0.0f ) {
+                tmp.a = 0.1f;
+            }
+
+            spriteRenderer.color = tmp;
         }
     }
 }
