@@ -4,8 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
+<<<<<<< HEAD
   - Weapon
   - Tile
+=======
+  - Edge
+>>>>>>> enemy-ai
   layers:
   - Default
   - TransparentFX
@@ -15,7 +19,11 @@ TagManager:
   - UI
   - 
   - 
+<<<<<<< HEAD
   - CanBeGround
+=======
+  - Slime
+>>>>>>> enemy-ai
   - 
   - 
   - 
@@ -42,4 +50,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: ground
+    uniqueID: 699627911
+    locked: 0
+  - name: Slime
+    uniqueID: 3419000055
     locked: 0
