@@ -12,15 +12,20 @@ public class Player : MonoBehaviour {
     private Rigidbody2D rb2d;
     private bool isOnGround;
     private bool isRayHitSomething;
+    private bool faceRight;
+    private float horizontal;
 
     void Start () {
         rb2d = GetComponent<Rigidbody2D>();
         isRayHitSomething = false;
         isOnGround = false;
+        faceRight = true;
 	}
 	
 	void FixedUpdate () {
-        MoveHorizontal(Input.GetAxis("Horizontal"));
+        horizontal = Input.GetAxis("Horizontal");
+        MoveHorizontal(horizontal);
+        Flip(horizontal);
 
         //AdjustSpeed();
 
@@ -85,5 +90,17 @@ public class Player : MonoBehaviour {
         Debug.Log("Before jump: " + rb2d.velocity);
         //rb2d.velocity += jumpPower * Vector2.up;
         rb2d.velocity = new Vector2(rb2d.velocity.x, jumpPower);
+    }
+
+    void Flip (float horizontal)
+    {
+        if ((horizontal > 0 && !faceRight) || (horizontal < 0 && faceRight))
+        {
+            faceRight = !faceRight;
+
+            Vector2 playerScale = transform.localScale;
+            playerScale.x *= -1;
+            transform.localScale = playerScale;
+        }
     }
 }
