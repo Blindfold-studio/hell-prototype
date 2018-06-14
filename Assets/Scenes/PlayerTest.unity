@@ -1235,8 +1235,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  maxSpeed: 3
-  jumpPower: 7
+  maxSpeed: 0
+  jumpPower: 8
   dashSpeed: 100
   groundLayer:
     serializedVersion: 2
