@@ -16,7 +16,8 @@ public class Circle : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        targetplayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        targetplayer = player.GetComponent<Transform>();
         speed = 2.5f;
     }
 
@@ -28,8 +29,11 @@ public class Circle : MonoBehaviour
         //float y = Mathf.Sin(timer + player.transform.position.y) * height;
         //transform.position = new Vector2(x, y);
 
-        
-        if (Vector2.Distance(transform.position, targetplayer.position) < 10)
+        if (Vector2.Distance(transform.position, targetplayer.position) < 0.5)
+        {
+            
+        }
+        else if (Vector2.Distance(transform.position, targetplayer.position) < 5)
         {
             transform.position = Vector2.MoveTowards(transform.position, targetplayer.position, speed * Time.deltaTime);
             transform.RotateAround(player.transform.position, zAxis, speed);

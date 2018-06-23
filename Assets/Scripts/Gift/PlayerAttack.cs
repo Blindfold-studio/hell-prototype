@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour {
 
-    public float attackRange;
-    public Animator weaponAnimator;
+    public int damage;
+    private Animator weaponAnimator;
 
 	// Use this for initialization
 	void Start () {
-		
+        weaponAnimator = GetComponent<Animator>();
+        damage = 1;
 	}
 
-    private void FixedUpdate() {
-        if(Input.GetMouseButtonDown(0)) {
-            weaponAnimator.SetTrigger("IsSlash");
-        }
+    public void Attack ()
+    {
+        weaponAnimator.SetTrigger("IsSlash");
+    }
+
+    public int GetDamage ()
+    {
+        return damage;
     }
 }

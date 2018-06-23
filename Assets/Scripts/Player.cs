@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
     public float maxSpeed;
     public float jumpPower;
     public float dashSpeed;
+    public float trust;
 
     public LayerMask groundLayer;
 
@@ -17,10 +18,8 @@ public class Player : MonoBehaviour {
     private float horizontal;
     private float dashTime;
     private float startDashTime;
-
-    
-    public float thrust;
     private SpriteRenderer spriteRenderer;
+    private PlayerAttack weapon;
 
     void Start () {
         rb2d = GetComponent<Rigidbody2D>();
@@ -30,7 +29,16 @@ public class Player : MonoBehaviour {
 
         dashTime = 1f;
         startDashTime = dashTime;
+
         spriteRenderer = GetComponent<SpriteRenderer>();
+        
+        foreach (Transform wp in gameObject.transform)
+        {
+            if (wp.gameObject.CompareTag("Weapon"))
+            {
+                weapon = wp.gameObject.GetComponent<PlayerAttack>();
+            }
+        }
 	}
 	
 	void FixedUpdate () {
@@ -78,6 +86,11 @@ public class Player : MonoBehaviour {
         {
             Debug.DrawLine(this.transform.position, this.transform.position + Vector3.down * 0.6f, Color.green);
         }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Hit();
+        }
     }
 
     void AdjustSpeed ()
@@ -106,6 +119,11 @@ public class Player : MonoBehaviour {
         Debug.Log("Before jump: " + rb2d.velocity);
         //rb2d.velocity += jumpPower * Vector2.up;
         rb2d.velocity = new Vector2(rb2d.velocity.x, jumpPower);
+    }
+
+    void Hit ()
+    {
+        weapon.Attack();
     }
 
     void Flip (float horizontal)
@@ -145,19 +163,61 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other) {
-        if(other.gameObject.tag == "Enemy") {
-            // rb2d.AddForce(new Vector2(thrust, 0f), ForceMode2D.Impulse);
-            Vector2 vel = new Vector2(-20f, rb2d.velocity.y);
-            rb2d.velocity = vel;
+    /*
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Vector2 forceBack = new Vector2(trust, 0f);
+            if (faceRight)
+            {
+                rb2d.AddForce(-forceBack, ForceMode2D.Impulse);
+            }
+            else
+            {
+                rb2d.AddForce(forceBack, ForceMode2D.Impulse);
+            }
             Color tmp = spriteRenderer.color;
             tmp.a -= 0.3f;
             //need to change color to black and white
-            if(tmp.a < 0.0f ) {
+            if (tmp.a < 0.0f)
+            {
                 tmp.a = 0.1f;
             }
 
             spriteRenderer.color = tmp;
         }
+    }
+    */
+
+    public IEnumerator Knockback (float duration, float power, Vector3 dir)
+    {
+        float timer = 0;
+        while (duration > timer)
+        {
+            timer += Time.deltaTime;
+
+            if (faceRight)
+            {
+                rb2d.AddForce(new Vector3(dir.x * -power, power, transform.position.z));
+            }
+            
+            else
+            {
+                rb2d.AddForce(new Vector3(dir.x * power, power, transform.position.z));
+            }
+        }
+
+        Color tmp = spriteRenderer.color;
+        tmp.a -= 0.3f;
+        //need to change color to black and white
+        if (tmp.a < 0.0f)
+        {
+            tmp.a = 0.1f;
+        }
+
+        spriteRenderer.color = tmp;
+
+        yield return 0;
     }
 }
