@@ -13,17 +13,29 @@ public class Player : MonoBehaviour {
 
     private Rigidbody2D rb2d;
     private bool isOnGround;
-    private bool isRayHitSomething;
     private bool faceRight;
+    private bool jumpRequest;
     private float horizontal;
     private float dashTime;
     private float startDashTime;
+
+    [SerializeField]
+    private float groundedSkin = 0.05f;
+
     private SpriteRenderer spriteRenderer;
     private PlayerAttack weapon;
+    private Vector2 playerSize;
+    private Vector2 boxSize;
+
+    void Awake()
+    {
+        playerSize = GetComponent<BoxCollider2D>().size;
+        boxSize = new Vector2(playerSize.x, groundedSkin);
+        Debug.Log(boxSize);
+        rb2d = GetComponent<Rigidbody2D>();
+    }
 
     void Start () {
-        rb2d = GetComponent<Rigidbody2D>();
-        isRayHitSomething = false;
         isOnGround = false;
         faceRight = true;
 
@@ -46,15 +58,18 @@ public class Player : MonoBehaviour {
         MoveHorizontal(horizontal);
         Flip(horizontal);
 
-        //AdjustSpeed();
-
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (jumpRequest)
         {
-            if (isOnGround)
-            {
-                Jump();
-                Debug.Log("After jump: " + rb2d.velocity);
-            }            
+            rb2d.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+
+            jumpRequest = false;
+            isOnGround = false;
+        }
+        else
+        {
+            Vector2 boxCenter = (Vector2)transform.position + Vector2.down * (playerSize.y + boxSize.y) * 0.5f;
+            Debug.Log(boxCenter);
+            isOnGround = (Physics2D.OverlapBox(boxCenter, boxSize, 0f, groundLayer) != null);
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -66,25 +81,9 @@ public class Player : MonoBehaviour {
 
     void Update()
     {
-        if (Physics2D.Raycast(this.transform.position, Vector2.down, 0.6f, groundLayer))
+        if (Input.GetKeyDown(KeyCode.Z) && isOnGround)
         {
-            isRayHitSomething = true;
-            isOnGround = true;
-            //rb2d.velocity = new Vector3(rb2d.velocity.x, 0f);
-        }
-        else
-        {
-            isRayHitSomething = false;
-            isOnGround = false;
-        }
-
-        if (isRayHitSomething)
-        {
-            Debug.DrawLine(this.transform.position, this.transform.position + Vector3.down * 0.6f, Color.red);
-        }
-        else
-        {
-            Debug.DrawLine(this.transform.position, this.transform.position + Vector3.down * 0.6f, Color.green);
+            jumpRequest = true;
         }
 
         if (Input.GetKeyDown(KeyCode.X))
@@ -93,32 +92,11 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void AdjustSpeed ()
-    {
-        if (rb2d.velocity.x > maxSpeed)
-        {
-            rb2d.velocity = new Vector2(maxSpeed, rb2d.velocity.y);
-        }
-
-        if (rb2d.velocity.x < -maxSpeed)
-        {
-            rb2d.velocity = new Vector2(-maxSpeed, rb2d.velocity.y);
-        }
-    }
-
     void MoveHorizontal (float dirHorizontal)
     {
         Vector2 moveVel = rb2d.velocity;
         moveVel.x = dirHorizontal * speed;
         rb2d.velocity = moveVel;
-    }
-
-    void Jump ()
-    {
-        //rb2d.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-        Debug.Log("Before jump: " + rb2d.velocity);
-        //rb2d.velocity += jumpPower * Vector2.up;
-        rb2d.velocity = new Vector2(rb2d.velocity.x, jumpPower);
     }
 
     void Hit ()
@@ -162,33 +140,6 @@ public class Player : MonoBehaviour {
             rb2d.velocity = dashVel;
         }
     }
-
-    /*
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            Vector2 forceBack = new Vector2(trust, 0f);
-            if (faceRight)
-            {
-                rb2d.AddForce(-forceBack, ForceMode2D.Impulse);
-            }
-            else
-            {
-                rb2d.AddForce(forceBack, ForceMode2D.Impulse);
-            }
-            Color tmp = spriteRenderer.color;
-            tmp.a -= 0.3f;
-            //need to change color to black and white
-            if (tmp.a < 0.0f)
-            {
-                tmp.a = 0.1f;
-            }
-
-            spriteRenderer.color = tmp;
-        }
-    }
-    */
 
     public IEnumerator Knockback (float duration, float power, Vector3 dir)
     {
