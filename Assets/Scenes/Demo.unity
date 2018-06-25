@@ -337,6 +337,11 @@ Prefab:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 61551898233003650, guid: 1435438ee9418d64db364fbc361267da,
+        type: 2}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 5008edf2d0bb9e644bede4c8e1659cf8, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1435438ee9418d64db364fbc361267da, type: 2}
   m_IsPrefabParent: 0
@@ -429,6 +434,11 @@ Prefab:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 61705767925433180, guid: 00c8351eabc5b5f4b9a2bfbcda0bc2cb,
+        type: 2}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 5008edf2d0bb9e644bede4c8e1659cf8, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 00c8351eabc5b5f4b9a2bfbcda0bc2cb, type: 2}
   m_IsPrefabParent: 0
@@ -612,6 +622,7 @@ GameObject:
   - component: {fileID: 2058671779}
   - component: {fileID: 2058671782}
   - component: {fileID: 2058671783}
+  - component: {fileID: 2058671784}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -743,3 +754,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   groundedSkin: 0.05
+--- !u!114 &2058671784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2058671778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc4c02fc202b6e94e9ff3cb38f384ce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMul: 2.5
+  lowJumpMul: 2
