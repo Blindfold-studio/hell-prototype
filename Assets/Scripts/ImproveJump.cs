@@ -7,6 +7,8 @@ public class ImproveJump : MonoBehaviour {
     private float fallMul = 2.5f;
     [SerializeField]
     private float lowJumpMul = 2f;
+    [SerializeField]
+    private string jumpButton;
 
     private Rigidbody2D rb2d;
 
@@ -20,7 +22,7 @@ public class ImproveJump : MonoBehaviour {
         {
             rb2d.gravityScale = fallMul;
         }
-        else if (rb2d.velocity.y > 0 && !Input.GetKey(KeyCode.Z)) 
+        else if (rb2d.velocity.y > 0 && !Input.GetButton(jumpButton)) 
         {
             rb2d.gravityScale = lowJumpMul;
         }

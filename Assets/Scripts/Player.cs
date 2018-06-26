@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
     public float trust;
     public float shootSpeed;
     public float firingRate;
+    
     public GameObject shootObject;
 
     public LayerMask groundLayer;
@@ -20,9 +21,19 @@ public class Player : MonoBehaviour {
     private float horizontal;
     private float dashTime;
     private float startDashTime;
+    private float xMin = -21.5f;
+    private float xMax = 21.5f;
 
     [SerializeField]
     private float groundedSkin = 0.05f;
+    [SerializeField]
+    private string horizontalAxis;
+    [SerializeField]
+    private string jumpButton;
+    [SerializeField]
+    private string meleeAtkButton;
+    [SerializeField]
+    private string rangeAtkButton;
 
     private SpriteRenderer spriteRenderer;
     private PlayerAttack weapon;
@@ -55,7 +66,7 @@ public class Player : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-        horizontal = Input.GetAxis("Horizontal");
+        horizontal = Input.GetAxis(horizontalAxis);
         MoveHorizontal(horizontal);
         Flip(horizontal);
 
@@ -81,22 +92,22 @@ public class Player : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && isOnGround)
+        if (Input.GetButtonDown(jumpButton) && isOnGround)
         {
             jumpRequest = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetButtonDown(meleeAtkButton))
         {
             Hit();
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetButtonDown(rangeAtkButton))
         {
             InvokeRepeating("Fire", 0.000001f, firingRate);
         }
 
-        if (Input.GetKeyUp(KeyCode.C))
+        if (Input.GetButtonUp(rangeAtkButton))
         {
             CancelInvoke("Fire");
         }
@@ -107,6 +118,8 @@ public class Player : MonoBehaviour {
         Vector2 moveVel = rb2d.velocity;
         moveVel.x = dirHorizontal * speed;
         rb2d.velocity = moveVel;
+
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, xMin, xMax), transform.position.y, transform.position.z);
     }
 
     void Hit ()
