@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
     public float speed;
-    public float maxSpeed;
     public float jumpPower;
     public float dashSpeed;
     public float trust;
+    public float shootSpeed;
+    public float firingRate;
+    public GameObject shootObject;
 
     public LayerMask groundLayer;
 
@@ -31,7 +33,6 @@ public class Player : MonoBehaviour {
     {
         playerSize = GetComponent<BoxCollider2D>().size;
         boxSize = new Vector2(playerSize.x, groundedSkin);
-        Debug.Log(boxSize);
         rb2d = GetComponent<Rigidbody2D>();
     }
 
@@ -68,7 +69,6 @@ public class Player : MonoBehaviour {
         else
         {
             Vector2 boxCenter = (Vector2)transform.position + Vector2.down * (playerSize.y + boxSize.y) * 0.5f;
-            Debug.Log(boxCenter);
             isOnGround = (Physics2D.OverlapBox(boxCenter, boxSize, 0f, groundLayer) != null);
         }
 
@@ -90,6 +90,16 @@ public class Player : MonoBehaviour {
         {
             Hit();
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            InvokeRepeating("Fire", 0.000001f, firingRate);
+        }
+
+        if (Input.GetKeyUp(KeyCode.C))
+        {
+            CancelInvoke("Fire");
+        }
     }
 
     void MoveHorizontal (float dirHorizontal)
@@ -102,6 +112,22 @@ public class Player : MonoBehaviour {
     void Hit ()
     {
         weapon.Attack();
+    }
+
+    void Fire()
+    {
+        if (faceRight)
+        {
+            GameObject arrow = Instantiate(shootObject, transform.position, Quaternion.Euler(new Vector3(0f, 0f, 0f))) as GameObject;
+            arrow.GetComponent<Arrow>().SetDirection(Vector2.right);
+        }
+        
+        else
+        {
+            GameObject arrow = Instantiate(shootObject, transform.position, Quaternion.Euler(new Vector3(0f, 0f, 180f))) as GameObject;
+            arrow.GetComponent<Arrow>().SetDirection(Vector2.left);
+        }
+        
     }
 
     void Flip (float horizontal)

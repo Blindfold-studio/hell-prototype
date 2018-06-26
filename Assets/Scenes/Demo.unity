@@ -746,10 +746,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  maxSpeed: 0
   jumpPower: 7.5
   dashSpeed: 100
   trust: 50
+  shootSpeed: 3
+  firingRate: 0.5
+  shootObject: {fileID: 1832478106383880, guid: 1bcec763a120662449def539c53b728b,
+    type: 2}
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
