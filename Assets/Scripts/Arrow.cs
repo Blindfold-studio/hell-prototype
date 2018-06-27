@@ -32,16 +32,6 @@ public class Arrow : MonoBehaviour {
         this.dir = dir;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag != "Player")
-        {
-            Debug.Log("Hit: " + collision.gameObject.tag);
-            Destroy(gameObject);
-        }
-            
-    }
-
     private void OnBecameInvisible()
     {
         Destroy(gameObject);

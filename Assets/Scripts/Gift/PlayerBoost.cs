@@ -6,12 +6,17 @@ using UnityEngine;
 public class PlayerBoost : MonoBehaviour {
     private GameObject g;
 
+    [SerializeField]
+    private string p1_name;
+    [SerializeField]
+    private string p2_name;
+
 	private void OnTriggerEnter2D(Collider2D other) {
-        if(other.gameObject.name == "Player1") {
-            g = GameObject.Find("Player2");
+        if(other.gameObject.name == p1_name) {
+            g = GameObject.Find(p2_name);
             
-        } else if(other.gameObject.name == "Player2") {
-            g = GameObject.Find("Player1");
+        } else if(other.gameObject.name == p1_name) {
+            g = GameObject.Find(p2_name);
 
         }
         Vector2 v = g.transform.localScale;
