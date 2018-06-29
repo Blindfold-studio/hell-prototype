@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Sword : MonoBehaviour {
-    private int damage = 1;
+    [SerializeField]
+    private int damage;
 
 	public int GetDamage ()
     {

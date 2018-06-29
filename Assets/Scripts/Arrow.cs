@@ -6,11 +6,12 @@ using UnityEngine;
 public class Arrow : MonoBehaviour {
     [SerializeField]
     private int damage;
-    [SerializeField]
-    private float speed;
 
+    private float speed;
     private Rigidbody2D rb;
     private Vector2 dir;
+
+    
 
     void Start()
     {
@@ -30,6 +31,18 @@ public class Arrow : MonoBehaviour {
     public void SetDirection (Vector2 dir)
     {
         this.dir = dir;
+    }
+
+    public float Speed
+    {
+        get
+        {
+            return speed;
+        }
+        set
+        {
+            speed = value;
+        }
     }
 
     private void OnBecameInvisible()

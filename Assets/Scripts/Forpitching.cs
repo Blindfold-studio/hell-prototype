@@ -5,7 +5,10 @@ using UnityEngine;
 public class Forpitching : MonoBehaviour {
 
     public float speed;
-    public int health;
+
+    [SerializeField]
+    private int health;
+
     private Transform targetplayer;
     private Animator animator;
     private Player player;
@@ -16,12 +19,11 @@ public class Forpitching : MonoBehaviour {
     {
         animator = GetComponent<Animator>();
         rg = GetComponent<Rigidbody2D>();
-        health = 3;
     }
     // Use this for initialization
     void Start () {
         targetplayer = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 	}
 	
 	// Update is called once per frame
@@ -54,20 +56,21 @@ public class Forpitching : MonoBehaviour {
 
         if (collision.CompareTag("Weapon"))
         {
-            PlayerAttack weapon = collision.GetComponent<PlayerAttack>();
+            Sword weapon = collision.GetComponent<Sword>();
 
             health -= weapon.GetDamage();
+            Debug.Log("Slime health: " + health);
 
             if (weapon.transform.position.x < this.transform.position.x)
             {
                 Debug.Log("Player left");
-                StartCoroutine(this.Knockback(0.5f, 5f, this.transform.position));
+                StartCoroutine(this.Knockback(0.5f, 5f));
             }
                 
             else
             {
                 Debug.Log("Player right");
-                StartCoroutine(this.Knockback(0.5f, -5f, this.transform.position));
+                StartCoroutine(this.Knockback(0.5f, -5f));
             }
                 
 
@@ -79,14 +82,14 @@ public class Forpitching : MonoBehaviour {
         }
     }
 
-    public IEnumerator Knockback(float duration, float power, Vector3 dir)
+    public IEnumerator Knockback(float duration, float power)
     {
         float timer = 0;
         while (duration > timer)
         {
             timer += Time.deltaTime;
 
-            rg.AddForce(new Vector3(dir.x * power, 0f, transform.position.z));
+            rg.AddForce(new Vector3(power, 0f, transform.position.z));
         }
 
         yield return 0;

@@ -34,6 +34,8 @@ public class Player : MonoBehaviour {
     private string meleeAtkButton;
     [SerializeField]
     private string rangeAtkButton;
+    [SerializeField]
+    private Vector3 offsetArrow;
 
     private SpriteRenderer spriteRenderer;
     private PlayerAttack weapon;
@@ -129,18 +131,26 @@ public class Player : MonoBehaviour {
 
     void Fire()
     {
-        if (faceRight)
+        if (Input.GetKey(KeyCode.W))
         {
-            GameObject arrow = Instantiate(shootObject, transform.position, Quaternion.Euler(new Vector3(0f, 0f, 0f))) as GameObject;
+            GameObject arrow = Instantiate(shootObject, transform.position, Quaternion.Euler(new Vector3(0f, 0f, 90f))) as GameObject;
+            arrow.GetComponent<Arrow>().SetDirection(Vector2.up);
+            arrow.GetComponent<Arrow>().Speed = shootSpeed;
+        }
+
+        else if (faceRight)
+        {
+            GameObject arrow = Instantiate(shootObject, transform.position + offsetArrow, Quaternion.Euler(new Vector3(0f, 0f, 0f))) as GameObject;
             arrow.GetComponent<Arrow>().SetDirection(Vector2.right);
+            arrow.GetComponent<Arrow>().Speed = shootSpeed;
         }
-        
-        else
+
+        else if (!faceRight)
         {
-            GameObject arrow = Instantiate(shootObject, transform.position, Quaternion.Euler(new Vector3(0f, 0f, 180f))) as GameObject;
+            GameObject arrow = Instantiate(shootObject, transform.position - offsetArrow, Quaternion.Euler(new Vector3(0f, 0f, 180f))) as GameObject;
             arrow.GetComponent<Arrow>().SetDirection(Vector2.left);
+            arrow.GetComponent<Arrow>().Speed = shootSpeed;
         }
-        
     }
 
     void Flip (float horizontal)

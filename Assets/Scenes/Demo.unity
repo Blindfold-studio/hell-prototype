@@ -159,14 +159,30 @@ Prefab:
     - target: {fileID: 61565350628270534, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
         type: 2}
       propertyPath: m_Size.x
-      value: 0.62
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 61788754798000928, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
         type: 2}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61039226639961456, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
+        type: 2}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114453735514776672, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
+        type: 2}
+      propertyPath: offsetArrow.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114453735514776672, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
+        type: 2}
+      propertyPath: shootSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114961938116203116, guid: 136fbd1eebde1d74ea538c0f139ff4a1, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 136fbd1eebde1d74ea538c0f139ff4a1, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &802643233
@@ -586,9 +602,49 @@ Prefab:
       propertyPath: jumpButton
       value: Jump_P2
       objectReference: {fileID: 0}
+    - target: {fileID: 61565350628270534, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658925403048348, guid: 136fbd1eebde1d74ea538c0f139ff4a1, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114453735514776672, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
+        type: 2}
+      propertyPath: firingRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114453735514776672, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
+        type: 2}
+      propertyPath: offsetArrow.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114453735514776672, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
+        type: 2}
+      propertyPath: shootSpeed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 136fbd1eebde1d74ea538c0f139ff4a1, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1678809074 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1948969614794552, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
+    type: 2}
+  m_PrefabInternal: {fileID: 406882431}
+--- !u!114 &1678809077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1678809074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8816135f42e94151b0b1b2ccc86c7d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1727242163
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,7 +655,6 @@ GameObject:
   - component: {fileID: 1727242167}
   - component: {fileID: 1727242166}
   - component: {fileID: 1727242165}
-  - component: {fileID: 1727242164}
   m_Layer: 0
   m_Name: Main Camera_P2
   m_TagString: MainCamera
@@ -607,13 +662,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1727242164
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1727242163}
-  m_Enabled: 1
 --- !u!124 &1727242165
 Behaviour:
   m_ObjectHideFlags: 0
@@ -668,8 +716,25 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1734214238 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1786376926788318, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
+    type: 2}
+  m_PrefabInternal: {fileID: 406882431}
+--- !u!114 &1734214242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1734214238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9435aea6a096b2047991cd264522e861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
 --- !u!1001 &1856127252
 Prefab:
   m_ObjectHideFlags: 0
@@ -707,7 +772,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4720907923657114, guid: 1fa9ea01486c82948b71f33495e45714, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 50647173340063514, guid: 1fa9ea01486c82948b71f33495e45714,
         type: 2}
@@ -751,7 +816,7 @@ Prefab:
     - target: {fileID: 114779848925207210, guid: 1fa9ea01486c82948b71f33495e45714,
         type: 2}
       propertyPath: health
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 61760125692008242, guid: 1fa9ea01486c82948b71f33495e45714,
         type: 2}
