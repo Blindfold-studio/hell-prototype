@@ -6,11 +6,12 @@ using UnityEngine;
 public class Arrow : MonoBehaviour {
     [SerializeField]
     private int damage;
-    [SerializeField]
-    private float speed;
 
+    private float speed;
     private Rigidbody2D rb;
     private Vector2 dir;
+
+    
 
     void Start()
     {
@@ -32,13 +33,20 @@ public class Arrow : MonoBehaviour {
         this.dir = dir;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public float Speed
     {
-        if (collision.gameObject.tag != "Player")
+        get
         {
-            Debug.Log("Hit: " + collision.gameObject.tag);
-            Destroy(gameObject);
+            return speed;
         }
-            
+        set
+        {
+            speed = value;
+        }
+    }
+
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject);
     }
 }

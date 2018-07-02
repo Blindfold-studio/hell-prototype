@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-    public float speed;
-    public float jumpPower;
-    public float dashSpeed;
-    public float trust;
-    public float shootSpeed;
-    public float firingRate;
+    /*
+    [System.Serializable]
+    public class PlayerAttribute
+    {
+        public float amountOfArrow;
+    }
+    */
+    
+    //public PlayerAttribute playerAttr;
     public GameObject shootObject;
 
     public LayerMask groundLayer;
@@ -20,9 +23,35 @@ public class Player : MonoBehaviour {
     private float horizontal;
     private float dashTime;
     private float startDashTime;
+    private float xMin = -21.5f;
+    private float xMax = 21.5f;
 
     [SerializeField]
+    private float speed;
+    [SerializeField]
+    private float jumpPower;
+    [SerializeField]
+    private float shootSpeed;
+    [SerializeField]
+    private float firingRate;
+    [SerializeField]
+    private int amountOfArrow;
+    [SerializeField]
+    private float dashSpeed;
+    [SerializeField]
+    private float trust;
+    [SerializeField]
     private float groundedSkin = 0.05f;
+    [SerializeField]
+    private string horizontalAxis;
+    [SerializeField]
+    private string jumpButton;
+    [SerializeField]
+    private string meleeAtkButton;
+    [SerializeField]
+    private string rangeAtkButton;
+    [SerializeField]
+    private Vector3 offsetArrow;
 
     private SpriteRenderer spriteRenderer;
     private PlayerAttack weapon;
@@ -55,7 +84,7 @@ public class Player : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-        horizontal = Input.GetAxis("Horizontal");
+        horizontal = Input.GetAxis(horizontalAxis);
         MoveHorizontal(horizontal);
         Flip(horizontal);
 
@@ -81,22 +110,22 @@ public class Player : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && isOnGround)
+        if (Input.GetButtonDown(jumpButton) && isOnGround)
         {
             jumpRequest = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetButtonDown(meleeAtkButton))
         {
             Hit();
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetButtonDown(rangeAtkButton) && amountOfArrow > 0)
         {
             InvokeRepeating("Fire", 0.000001f, firingRate);
         }
 
-        if (Input.GetKeyUp(KeyCode.C))
+        if (Input.GetButtonUp(rangeAtkButton))
         {
             CancelInvoke("Fire");
         }
@@ -107,6 +136,8 @@ public class Player : MonoBehaviour {
         Vector2 moveVel = rb2d.velocity;
         moveVel.x = dirHorizontal * speed;
         rb2d.velocity = moveVel;
+
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, xMin, xMax), transform.position.y, transform.position.z);
     }
 
     void Hit ()
@@ -116,18 +147,29 @@ public class Player : MonoBehaviour {
 
     void Fire()
     {
-        if (faceRight)
+        if (Input.GetKey(KeyCode.W))
         {
-            GameObject arrow = Instantiate(shootObject, transform.position, Quaternion.Euler(new Vector3(0f, 0f, 0f))) as GameObject;
+            GameObject arrow = Instantiate(shootObject, transform.position, Quaternion.Euler(new Vector3(0f, 0f, 90f))) as GameObject;
+            arrow.GetComponent<Arrow>().SetDirection(Vector2.up);
+            arrow.GetComponent<Arrow>().Speed = shootSpeed;
+        }
+
+        else if (faceRight)
+        {
+            GameObject arrow = Instantiate(shootObject, transform.position + offsetArrow, Quaternion.Euler(new Vector3(0f, 0f, 0f))) as GameObject;
             arrow.GetComponent<Arrow>().SetDirection(Vector2.right);
+            arrow.GetComponent<Arrow>().Speed = shootSpeed;
         }
-        
-        else
+
+        else if (!faceRight)
         {
-            GameObject arrow = Instantiate(shootObject, transform.position, Quaternion.Euler(new Vector3(0f, 0f, 180f))) as GameObject;
+            GameObject arrow = Instantiate(shootObject, transform.position - offsetArrow, Quaternion.Euler(new Vector3(0f, 0f, 180f))) as GameObject;
             arrow.GetComponent<Arrow>().SetDirection(Vector2.left);
+            arrow.GetComponent<Arrow>().Speed = shootSpeed;
         }
-        
+
+        amountOfArrow -= 1;
+        Debug.Log("Arrow: " + amountOfArrow);
     }
 
     void Flip (float horizontal)
@@ -164,6 +206,43 @@ public class Player : MonoBehaviour {
         else
         {
             rb2d.velocity = dashVel;
+        }
+    }
+
+    public int AmountOfArrow
+    {
+        get {
+            return amountOfArrow;
+        }
+
+        set {
+            amountOfArrow += 1;
+        }
+    }
+
+    public float Speed
+    {
+        get
+        {
+            return speed;
+        }
+
+        set
+        {
+            speed *= value;
+        }
+    }
+
+    public float JumpPower
+    {
+        get
+        {
+            return jumpPower;
+        }
+
+        set
+        {
+            jumpPower *= value;
         }
     }
 
