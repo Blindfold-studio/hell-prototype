@@ -15,11 +15,13 @@ public class PlayerBoost : MonoBehaviour {
         if(other.gameObject.name == p1_name) {
             g = GameObject.Find(p2_name);
             
-        } else if(other.gameObject.name == p1_name) {
-            g = GameObject.Find(p2_name);
-
+        } else if(other.gameObject.name == p2_name) {
+            g = GameObject.Find(p1_name);
+        } else {
+            return;
         }
-        Vector2 v = g.transform.localScale;
+        Vector2 v = new Vector2();
+        v = g.transform.localScale;
         v += new Vector2(1f, 1f);
         g.transform.localScale = v;
         this.gameObject.SetActive(false);

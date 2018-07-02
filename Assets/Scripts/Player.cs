@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-    public float speed;
-    public float jumpPower;
-    public float dashSpeed;
-    public float trust;
-    public float shootSpeed;
-    public float firingRate;
+    /*
+    [System.Serializable]
+    public class PlayerAttribute
+    {
+        public float amountOfArrow;
+    }
+    */
     
+    //public PlayerAttribute playerAttr;
     public GameObject shootObject;
 
     public LayerMask groundLayer;
@@ -24,6 +26,20 @@ public class Player : MonoBehaviour {
     private float xMin = -21.5f;
     private float xMax = 21.5f;
 
+    [SerializeField]
+    private float speed;
+    [SerializeField]
+    private float jumpPower;
+    [SerializeField]
+    private float shootSpeed;
+    [SerializeField]
+    private float firingRate;
+    [SerializeField]
+    private int amountOfArrow;
+    [SerializeField]
+    private float dashSpeed;
+    [SerializeField]
+    private float trust;
     [SerializeField]
     private float groundedSkin = 0.05f;
     [SerializeField]
@@ -104,7 +120,7 @@ public class Player : MonoBehaviour {
             Hit();
         }
 
-        if (Input.GetButtonDown(rangeAtkButton))
+        if (Input.GetButtonDown(rangeAtkButton) && amountOfArrow > 0)
         {
             InvokeRepeating("Fire", 0.000001f, firingRate);
         }
@@ -151,6 +167,9 @@ public class Player : MonoBehaviour {
             arrow.GetComponent<Arrow>().SetDirection(Vector2.left);
             arrow.GetComponent<Arrow>().Speed = shootSpeed;
         }
+
+        amountOfArrow -= 1;
+        Debug.Log("Arrow: " + amountOfArrow);
     }
 
     void Flip (float horizontal)
@@ -187,6 +206,43 @@ public class Player : MonoBehaviour {
         else
         {
             rb2d.velocity = dashVel;
+        }
+    }
+
+    public int AmountOfArrow
+    {
+        get {
+            return amountOfArrow;
+        }
+
+        set {
+            amountOfArrow += 1;
+        }
+    }
+
+    public float Speed
+    {
+        get
+        {
+            return speed;
+        }
+
+        set
+        {
+            speed *= value;
+        }
+    }
+
+    public float JumpPower
+    {
+        get
+        {
+            return jumpPower;
+        }
+
+        set
+        {
+            jumpPower *= value;
         }
     }
 

@@ -179,6 +179,15 @@ Prefab:
     - target: {fileID: 114453735514776672, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
         type: 2}
       propertyPath: shootSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948969614794552, guid: 136fbd1eebde1d74ea538c0f139ff4a1, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114453735514776672, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
+        type: 2}
+      propertyPath: amountOfArrow
       value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents:
@@ -614,7 +623,7 @@ Prefab:
     - target: {fileID: 114453735514776672, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
         type: 2}
       propertyPath: firingRate
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 114453735514776672, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
         type: 2}
@@ -624,6 +633,11 @@ Prefab:
     - target: {fileID: 114453735514776672, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
         type: 2}
       propertyPath: shootSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114453735514776672, guid: 136fbd1eebde1d74ea538c0f139ff4a1,
+        type: 2}
+      propertyPath: amountOfArrow
       value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
